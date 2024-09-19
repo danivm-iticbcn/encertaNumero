@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ca">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Encerta el número</title>
+        <!-- Link css -->
+        <link rel="stylesheet" href="/styles/style.css">
+    </head>
+    <body>
+        <header>
+            <!-- Títol -->
+            <h1>Busca un número entre 1 i 20</h1>
+            <!-- Botó per reiniciar el joc -->
+            <div class="reiniciar-container">
+                <button id="reiniciar" onclick="reiniciar()">Reinicia!</button>
+            </div>
+        </header>
+        <main>
+            <!-- SubTítol -->
+            <h2>Busca el número!</h2>
+            <!-- Contenidor per veure el reusltat -->
+            <div id="mostrarNumero">?</div>
+            <!-- Estat del joc -->
+            <span id="estatPartida">Comencem la partida...</span>
+        </main>
+        <footer>
+            <!-- Input i boto per provar -->
+            <div>
+                <div>
+                    <input type="number" id="entradaNumero" required>
+                    <button id="lanzarPrueba" onclick="probar()">Prova!</button>
+                </div>
+                <div id="nJudaosContainer">
+                    <span id="numerosJugatsTxt"><span id="numerosJugats"></span></span>
+                </div>
+            </div>
+            <!-- Jugades i punts -->
+            <div>
+                <p>Jugades: <span id="jugades">20</span></p>
+                <p>Total punts: <span id="puntuacio">0</span></p>
+            </div>        
+        </footer>
+    </body>
+
+    <script>
+
+        //VARIABLES PARA LOGICA
+        let numeroRandom = Math.floor(Math.random()*20);
+        let contJugadas = 20;
+        let puntuacionActual = 0;
+        let mejorPuntuacion = 0;
+        let numerosJugados = [];
+
+        console.log(numeroRandom);
+
+        //VARIABLES DOM (DATPS HTML)
+        let mostrarNumero = document.getElementById('mostrarNumero');
+        let estado = document.getElementById('estatPartida');
+        let jugadas = document.getElementById('jugades');
+        let puntuacion = document.getElementById('puntuacio');
+        let reiniciarBtn = document.getElementById('reiniciar');
+        let numerosJugadosVista = document.getElementById('numerosJugats');
+        let numerosJugatsTxt = document.getElementById('numerosJugatsTxt');
+
+        function reiniciar(){
+            //Volvemos a poner los valores como al inicio
+            mostrarNumero.innerHTML = '?';
+            estado.innerHTML = 'Comencem la partida...';
+            jugadas.innerHTML = '20';
+            numerosJugadosTxt.innerHTML = '';
+            numerosJugadosVista.innerHTML = '';
+
+            //Cambiamos el numero a adivinar
+            numeroRandom = Math.floor(Math.random()*20);
+
+            //Reiniciamos el input
+            document.getElementById('entradaNumero').value = '';
+        }
+
+        function probar(){
+
+            //Leemos el numero introducido
+            let numero = document.getElementById('entradaNumero').value;
+
+            //Añadimos el numero a los jugados
+            numerosJugados.push(numero);
+            console.log(contJugadas);
+            console.log(contJugadas == 20)
+            //Mostramos los numeros jugados
+            if (contJugadas == 20){
+                numerosJugatsTxt.innerHTML = 'Números jugats: '
+            }
+
+            //FALTA MOSTRAR LOS NUMEROS JUGADOS
+            numerosJugadosVista.innerHTML = numerosJugados;
+
+            //Validamos si el valor introducido es correcto
+            let esNumeroCorrecto = validarNumero(numero);
+
+            //Restamos un intento y actualizamos
+            contJugadas--;
+            jugadas.innerHTML = contJugadas;
+
+            //Deshabilitamos el boton de reinicio
+            reiniciarBtn.disabled = true;
+
+            //En caso de no ser valido avisamos
+            if (numero == 'e' || !esNumeroCorrecto){
+                alert('El número introduit no és correcte.');
+
+            //En caso de servalido seguimos
+            } else{
+                //En caso de ser mas grande
+                if (numero > numeroRandom){
+                    estado.innerHTML = 'El número es massa gran';
+                //En caso de ser mas pequeño
+                } else if(numero < numeroRandom){
+                    estado.innerHTML = 'El número es massa petit';
+                //En caso de ser el numero que buscamos
+                } else if (numero == numeroRandom){ 
+                    //Llamamos al final de partida
+                    finalPartida(numero, reiniciarBtn);
+                }
+            }   
+        }
+
+        function validarNumero(numero){
+            let esNumeroValido;
+
+            //Si el numero no esta entre 0 y 20 no es valido
+            if (numero < 0 || numero > 20){
+                esNumeroValido = false;
+            } else{
+                esNumeroValido = true;
+            }
+
+            return esNumeroValido;
+        }
+
+        function finalPartida(numero, reiniciarBtn){
+            //Cambiamos estado
+            estado.innerHTML = 'El numero és correcte';
+
+            //Mostramos el numero
+            document.getElementById('mostrarNumero').innerHTML = `${numero}`;
+
+            //Miramos las jugadas y actualizamos a la mejor
+            puntuacionActual = contJugadas;
+            if (puntuacionActual > mejorPuntuacion){
+                mejorPuntuacion = puntuacionActual;
+                puntuacion.innerHTML = puntuacionActual;
+            }
+
+            //Cambiamos el fondo a verde
+            document.body.style.backgroundColor = 'green';
+            document.getElementById('entradaNumero').style.backgroundColor = 'green';
+
+            //Activamos el boton de reinicio
+            reiniciarBtn.disabled = false;
+        }
+
+    </script>
+</html>
