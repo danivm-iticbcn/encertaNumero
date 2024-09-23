@@ -67,10 +67,10 @@
             //Volvemos a poner los valores como al inicio
             contJugadas = 20;
             numerosJugados = "Números jugats:  ";
-            mostrarNumero.innerHTML = '?';
-            estado.innerHTML = 'Comencem la partida...';
-            jugadas.innerHTML = '20';
-            numerosJugadosVista.innerHTML = '';
+            mostrarNumero.textContent = '?';
+            estado.textContent = 'Comencem la partida...';
+            jugadas.textContent = '20';
+            numerosJugadosVista.textContent = '';
             document.body.style.backgroundColor = 'black';
             document.getElementById('entradaNumero').style.backgroundColor = 'black';
 
@@ -102,22 +102,22 @@
 
                 //AÑADIMOS LOS NUMEROS JUGADOS
                 numerosJugados += `${numero} `;
-                numerosJugadosVista.innerHTML = numerosJugados;
+                numerosJugadosVista.textContent = numerosJugados;
                 numJugados.push(numero);
 
                 //Restamos un intento y actualizamos
                 contJugadas--;
-                jugadas.innerHTML = contJugadas;
+                jugadas.textContent = contJugadas;
 
                 //Deshabilitamos el boton de reinicio
                 reiniciarBtn.disabled = true;
 
                 //En caso de ser mas grande
                 if (numero > numeroRandom){
-                    estado.innerHTML = 'El número es massa gran';
+                    estado.textContent = 'El número es massa gran';
                 //En caso de ser mas pequeño
                 } else if(numero < numeroRandom){
-                    estado.innerHTML = 'El número es massa petit';
+                    estado.textContent = 'El número es massa petit';
                 //En caso de ser el numero que buscamos
                 } else if (numero == numeroRandom){ 
                     //Llamamos al final de partida
@@ -153,18 +153,18 @@
 
         function finalPartida(numero, reiniciarBtn){
             //Cambiamos estado
-            estado.innerHTML = 'El numero és correcte';
+            estado.textContent = 'El numero és correcte';
 
             //Mostramos el numero
-            document.getElementById('mostrarNumero').innerHTML = `${numero}`;
+            document.getElementById('mostrarNumero').textContent = `${numero}`;
 
             //Miramos las jugadas y actualizamos a la mejor
             if (Number(puntuacion.textContent) == 0){
-                puntuacion.innerHTML = contJugadas;
+                puntuacion.textContent = contJugadas;
             } else{
                 if (contJugadas > Number(puntuacion.textContent)){
                     mejorPuntuacion = contJugadas;
-                    puntuacion.innerHTML = contJugadas;
+                    puntuacion.textContent = contJugadas;
                 }
             }
             
@@ -182,7 +182,7 @@
 
         function lanzarGameOver(){
             //Cambiamos estado
-            estado.innerHTML = 'Final de la partida';
+            estado.textContent = 'Final de la partida';
 
             //Cambiamos el fondo a rojo
             document.body.style.backgroundColor = 'red';
