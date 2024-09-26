@@ -44,9 +44,10 @@
     </body>
 
     <script>
+        const MAX_JUGADAS = 20;
         //VARIABLES PARA LOGICA
-        let numeroRandom = Math.floor(Math.random()*20);
-        let contJugadas = 20;
+        let numeroRandom = obtenerNumeroRandom();
+        let contJugadas = MAX_JUGADAS;
         let numerosJugados = "Números jugats:  ";
         //No repetir jugados
         let numJugados = [];
@@ -63,6 +64,7 @@
         function reiniciar(){
             //Volvemos a poner los valores como al inicio
             contJugadas = 20;
+            numJugados = [];
             numerosJugados = "Números jugats:  ";
             mostrarNumero.textContent = '?';
             estado.textContent = 'Comencem la partida...';
@@ -72,7 +74,7 @@
             document.getElementById('entradaNumero').style.backgroundColor = 'black';
 
             //Cambiamos el numero a adivinar
-            numeroRandom = Math.floor(Math.random()*20);
+            numeroRandom = obtenerNumeroRandom();
 
             //Reiniciamos el input
             document.getElementById('entradaNumero').value = '';
@@ -125,6 +127,10 @@
             if (contJugadas == 0){
                 lanzarGameOver();
             }
+        }
+
+        function obtenerNumeroRandom(){
+            return Math.floor(Math.random()* MAX_JUGADAS + 1);
         }
 
         function validarNumero(numero){
