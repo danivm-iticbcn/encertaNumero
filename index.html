@@ -44,12 +44,12 @@
     </body>
 
     <script>
-        const MAX_JUGADAS = 20;
+        const MAX_NUM = 20;
+        const MIN_NUM = 1;
         //VARIABLES PARA LOGICA
         let numeroRandom = obtenerNumeroRandom();
-        let contJugadas = MAX_JUGADAS;
+        let contJugadas = 20;
         let numerosJugados = "Números jugats:  ";
-        //No repetir jugados
         let numJugados = [];
 
         //VARIABLES DOM (DATPS HTML)
@@ -61,8 +61,8 @@
         let probarBtn = document.getElementById('lanzarPrueba');
         let numerosJugadosVista = document.getElementById('numerosJugats');
 
+        //Funcion para reiniciar el juego
         function reiniciar(){
-            //Volvemos a poner los valores como al inicio
             contJugadas = 20;
             numJugados = [];
             numerosJugados = "Números jugats:  ";
@@ -73,52 +73,39 @@
             document.body.style.backgroundColor = 'black';
             document.getElementById('entradaNumero').style.backgroundColor = 'black';
 
-            //Cambiamos el numero a adivinar
             numeroRandom = obtenerNumeroRandom();
 
-            //Reiniciamos el input
             document.getElementById('entradaNumero').value = '';
 
-            //Habilitamos boton probar
             probarBtn.disabled = false;
         }
 
+        //Accion de probar un numero introducido
         function probar(){
 
-            //Leemos el numero introducido
             let numero = document.getElementById('entradaNumero').value;
           
-            //Validamos si el valor introducido es correcto
             let esNumeroCorrecto = validarNumero(numero);
 
-            //En caso de no ser valido avisamos
             if (numero == 'e' || !esNumeroCorrecto){
                 alert('El número introduit no és correcte o ja s\'ha jugat');
 
-            //En caso de servalido seguimos
             } else{
 
-                //AÑADIMOS LOS NUMEROS JUGADOS
                 numerosJugados += `${numero} `;
                 numerosJugadosVista.textContent = numerosJugados;
                 numJugados.push(numero);
 
-                //Restamos un intento y actualizamos
                 contJugadas--;
                 jugadas.textContent = contJugadas;
 
-                //Deshabilitamos el boton de reinicio
                 reiniciarBtn.disabled = true;
 
-                //En caso de ser mas grande
                 if (numero > numeroRandom){
                     estado.textContent = 'El número es massa gran';
-                //En caso de ser mas pequeño
                 } else if(numero < numeroRandom){
                     estado.textContent = 'El número es massa petit';
-                //En caso de ser el numero que buscamos
                 } else if (numero == numeroRandom){ 
-                    //Llamamos al final de partida
                     finalPartida(numero, reiniciarBtn);
                 }
             }
@@ -129,10 +116,12 @@
             }
         }
 
+        //Obtener numero para adivinar
         function obtenerNumeroRandom(){
-            return Math.floor(Math.random()* MAX_JUGADAS + 1);
+            return Math.floor(Math.random()* MAX_NUM + MIN_NUM);
         }
 
+        //Validamos el numero introducido
         function validarNumero(numero){
             let esNumeroValido;
             
@@ -148,15 +137,12 @@
                 }
                 esNumeroValido = !trobat;
             }
-
             return esNumeroValido;
         }
 
+        //Cambios al ganar partida
         function finalPartida(numero, reiniciarBtn){
-            //Cambiamos estado
             estado.textContent = 'El numero és correcte';
-
-            //Mostramos el numero
             document.getElementById('mostrarNumero').textContent = `${numero}`;
 
             //Miramos las jugadas y actualizamos a la mejor
@@ -168,30 +154,19 @@
                     puntuacion.textContent = contJugadas;
                 }
             }           
-
-            //Cambiamos el fondo a verde
+  
             document.body.style.backgroundColor = 'green';
             document.getElementById('entradaNumero').style.backgroundColor = 'green';
-
-            //Activamos el boton de reinicio
             reiniciarBtn.disabled = false;
-
-            //Desactivamos el boton de probar
             probarBtn.disabled = true;
         }
 
+        //Cambios para cuando pierde el juego
         function lanzarGameOver(){
-            //Cambiamos estado
             estado.textContent = 'Final de la partida';
-
-            //Cambiamos el fondo a rojo
             document.body.style.backgroundColor = 'red';
             document.getElementById('entradaNumero').style.backgroundColor = 'red';
-
-            //Activamos el boton de reinicio
             reiniciarBtn.disabled = false;
-
-            //Desactivamos el boton de probar
             probarBtn.disabled = true;            
         }
     </script>
