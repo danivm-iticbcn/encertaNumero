@@ -28,7 +28,7 @@
             <!-- Input i boto per provar -->
             <div>
                 <div>
-                    <input type="number" id="entradaNumero" required>
+                    <input type="number" id="entradaNumero" min="1" max="20">
                     <button id="lanzarPrueba" onclick="probar()">Prova!</button>
                 </div>
                 <div id="nJudaosContainer">
@@ -44,15 +44,12 @@
     </body>
 
     <script>
-
         //VARIABLES PARA LOGICA
         let numeroRandom = Math.floor(Math.random()*20);
         let contJugadas = 20;
         let numerosJugados = "Números jugats:  ";
         //No repetir jugados
         let numJugados = [];
-
-        console.log(numeroRandom);
 
         //VARIABLES DOM (DATPS HTML)
         let mostrarNumero = document.getElementById('mostrarNumero');
@@ -76,7 +73,6 @@
 
             //Cambiamos el numero a adivinar
             numeroRandom = Math.floor(Math.random()*20);
-            console.log(numeroRandom);
 
             //Reiniciamos el input
             document.getElementById('entradaNumero').value = '';
@@ -129,7 +125,6 @@
             if (contJugadas == 0){
                 lanzarGameOver();
             }
-
         }
 
         function validarNumero(numero){
@@ -166,8 +161,7 @@
                     mejorPuntuacion = contJugadas;
                     puntuacion.textContent = contJugadas;
                 }
-            }
-            
+            }           
 
             //Cambiamos el fondo a verde
             document.body.style.backgroundColor = 'green';
@@ -192,9 +186,7 @@
             reiniciarBtn.disabled = false;
 
             //Desactivamos el boton de probar
-            probarBtn.disabled = true;
-            
+            probarBtn.disabled = true;            
         }
-
     </script>
 </html>
